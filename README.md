@@ -99,7 +99,7 @@ This repository hosts a URL shortener application deployed on an Amazon EKS clus
 
   https://devopscube.com/github-actions-oidc-aws/
 
-- CI pipelines are already provisioned and stored as ***Configuration as Code*** in the GitHub Actions workflow yaml files of this repository at the path ".github/workflows". As soon as you merge a Pull Request(PR) in the 'main' branch, a CI build will automatically trigger, which will build a docker image for the application namely url-shortener and upload it to the ECR repository. Thus, kindly merge a Pull Request in the 'main' branch to build the application.
+- CI pipelines are already provisioned and stored as ***Configuration as Code*** in the GitHub Actions workflow yaml files of this repository at the path ".github/workflows". Kindly create and configure secrets namely AWS_ACCOUNT_ID, AWS_IAM_ROLE, AWS_REGION, and ECR_REPOSITORY_NAME in GitHub Actions as per your setup. As soon as you merge a Pull Request(PR) in the 'main' branch, a CI build will automatically trigger, which will build a docker image for the application namely url-shortener and upload it to the ECR repository. Thus, kindly merge a Pull Request in the 'main' branch to build the application.
 
 
 3. **Install the ArgoCD Application Resource to bootstrap ArgoCD**

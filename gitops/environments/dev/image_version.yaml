@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
       - name: url-shortener
-        image: 938552122815.dkr.ecr.eu-north-1.amazonaws.com/ecr-repo-url-shortener:dev # configure the ECR image endpoint
+        image: <mention the docker image version with tag> # configure the ECR image endpoint

@@ -1,0 +1,81 @@
+# This is a workflow for the 'CI build for an application namely url shortener' 
+
+name: CI-build-url-shortener
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  #push:
+   # branches: [ "main" ]
+  pull_request:
+    types: [closed, opened, reopened]
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  #workflow_dispatch:
+      
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # This is the job named "job-build"
+  job-build:
+  
+    # run the job only when the pull request is merged
+    if: github.event.pull_request.merged == true
+
+    #if: |
+     #  ${{ contains(github.ref, 'refs/heads/dev/') }} &&
+      # (github.event.pull_request.merged == true)
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-22.04
+
+    permissions:
+      id-token: write  # This is required for requesting the JWT
+      contents: read
+
+    outputs:
+      image_tag: ${{ steps.build-publish.outputs.image_tag }}
+      full_image: ${{ steps.build-publish.outputs.full_image }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      
+      # Runs a single command using the runners shell
+      - name: Print the current branch name
+        run: git branch
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_IAM_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: ${{ secrets.AWS_ACCOUNT_ID }}
+
+      - name: Build, tag, and push 'url-shortener' image to Amazon ECR
+        id: build-publish-url-shortener
+        shell: bash
+        env:
+          ecr_registry: ${{ steps.login-ecr.outputs.registry }}
+          ecr_repository: ${{ secrets.ECR_REPOSITORY_NAME }}
+          path_to_dockerfile: Dockerfile
+          docker_build_dir: .
+          image_tag: dev
+
+        # SECRETS can be directly referenced inside the run commands as well. Check the below docker build command where we have directly referenced the ECR_REPOSITORY_NAME secret  
+        run: |
+          cd application-code/
+          ls -la
+          docker build "$docker_build_dir" -f "$path_to_dockerfile" -t "$ecr_registry/${{ secrets.ECR_REPOSITORY_NAME }}:$image_tag"
+          docker images
+          docker push "$ecr_registry/$ecr_repository:$image_tag"
+          echo "IMAGE $image_tag is pushed to $ecr_registry/$ecr_repository"
+          echo "image_tag=$image_tag" 
+          echo "full_image=$ecr_registry/$ecr_repository:$image_tag"  

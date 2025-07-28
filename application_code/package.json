@@ -1,0 +1,15 @@
+{
+  "name": "url-shortener-app",
+  "version": "1.0.0",
+  "description": "A simple URL shortener using Node.js and DynamoDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.501.0",
+    "@aws-sdk/lib-dynamodb": "^3.501.0",
+    "express": "^4.18.2",
+    "shortid": "^2.2.16"
+  }
+}

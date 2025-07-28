@@ -1,0 +1,11 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: url-shortener-tgb
+  namespace: dev
+spec:
+  serviceRef:
+    name: url-shortener-service
+    port: 80
+  targetType: instance
+  targetGroupARN: <target group arn from aws>

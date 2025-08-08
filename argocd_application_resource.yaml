@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/PX-Perform-IN3838/modern-cloud-devops-stack.git  # <-- replace with your Git repo URL from where ArgoCD should synch
+    repoURL: <Git Repo URL>  # <-- replace with your Git repo URL from where ArgoCD should synch
     targetRevision: "HEAD"  
     path: gitops/environments/dev
     kustomize: {}

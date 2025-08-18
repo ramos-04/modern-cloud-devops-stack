@@ -1,0 +1,18 @@
+# k8s/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: url-shortener-service
+  labels:
+    app: url-shortener
+spec:
+  selector:
+    app: url-shortener
+  #type: LoadBalancer # This will provision an AWS Load Balancer
+  #type: ClusterIP 
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80 # Your Node.js app listens on port 80
+      nodePort: 30783

@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-applicationset-apps
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: <Repository URL>
+        revision: main
+        files:
+        - path: gitops/appsets/dev/apps/config/*.json
+  template:
+    metadata:
+      name: '{{.name}}-dev'
+      annotations:
+        argocd-image-updater.argoproj.io/image-list: '{{.name}}-alias={{.imageName}}:{{.imageTag}}'
+        argocd-image-updater.argoproj.io/{{.name}}-alias.update-strategy: digest
+        argocd-image-updater.argoproj.io/{{.name}}-alias.force-update: "true"
+        argocd-image-updater.argoproj.io/write-back-method: git
+        argocd-image-updater.argoproj.io/write-back-target: kustomization
+    spec:
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: dev
+      syncPolicy:
+        syncOptions:
+           - CreateNamespace=true 
+        automated:
+          prune: true
+          selfHeal: true
+      source:
+        repoURL: <Repository URL>
+        targetRevision: main
+        path: '{{.appPath}}'   # For Kustomize apps
+        kustomize: {}
+

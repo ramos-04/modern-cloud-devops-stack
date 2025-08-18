@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-applicationset-addons
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: <Repository URL>
+        revision: main
+        files:
+        - path: gitops/appsets/dev/addons/config/*.json
+  template:
+    metadata:
+      name: '{{.name}}-dev'
+    spec:
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
+      source:
+        repoURL: <Repository URL>
+        targetRevision: main
+        path: '{{.chartPath}}'
+        helm:
+          valueFiles:
+            - '{{.valuesPath}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

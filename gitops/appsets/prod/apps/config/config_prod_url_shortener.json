@@ -1,0 +1,7 @@
+
+{   
+    "name": "url-shortener-app",
+    "appPath": "gitops/apps/url_shortener_app/envs/prod",
+    "imageName":  "<image name>",
+    "imageTag": "prod"
+}

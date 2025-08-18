@@ -1,0 +1,51 @@
+image:
+  repository: public.ecr.aws/aws-secrets-manager/secrets-store-csi-driver-provider-aws
+  pullPolicy: IfNotPresent
+  tag: 2.0.0
+
+awsRegion: ""
+nameOverride: ""
+fullnameOverride: ""
+providerVolume: "/var/run/secrets-store-csi-providers"
+kubeletPath: "/var/lib/kubelet"
+
+driverWritesSecrets: false
+
+podLabels: {}
+podAnnotations: {}
+
+affinity: {}
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 100Mi
+  limits:
+    cpu: 50m
+    memory: 100Mi
+
+priorityClassName: ""
+nodeSelector: {}
+
+tolerations: []
+
+port: 8989
+
+updateStrategy:
+  type: RollingUpdate
+
+imagePullSecrets: []
+
+rbac:
+  install: true
+
+securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+
+useFipsEndpoint: false
+
+dnsConfig: {}
+
+secrets-store-csi-driver:
+  install: true

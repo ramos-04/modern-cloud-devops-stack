@@ -1,0 +1,7 @@
+
+{
+    "name": "nginx-webserver-app",
+    "appPath": "gitops/apps/nginx_webserver_app/envs/prod",
+    "imageName":  "nginx",
+    "imageTag": "1.25.3"
+}

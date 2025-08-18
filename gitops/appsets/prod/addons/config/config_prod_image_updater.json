@@ -1,0 +1,9 @@
+
+{
+            "name": "argocd-image-updater",
+            "namespace": "argocd",
+            "chartPath": "gitops/addons/argocd_image_updater/charts", 
+            "valuesPath": "../envs/prod/values.yaml" 
+}
+
+

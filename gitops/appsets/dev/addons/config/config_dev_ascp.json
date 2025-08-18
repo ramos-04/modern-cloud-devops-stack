@@ -1,0 +1,9 @@
+
+{
+            "name": "aws-ascp",
+            "namespace": "kube-system",
+            "chartPath": "gitops/addons/aws_ascp/charts", 
+            "valuesPath": "../envs/dev/values.yaml"
+}
+
+

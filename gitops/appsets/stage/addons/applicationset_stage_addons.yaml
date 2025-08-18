@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: stage-applicationset-addons
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: <Repository URL>
+        revision: main
+        files:
+        - path: gitops/appsets/stage/addons/config/*.json
+  template:
+    metadata:
+      name: '{{.name}}-stage'
+    spec:
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
+      source:
+        repoURL: <Repository URL>
+        targetRevision: main
+        path: '{{.chartPath}}'
+        helm:
+          valueFiles:
+            - '{{.valuesPath}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

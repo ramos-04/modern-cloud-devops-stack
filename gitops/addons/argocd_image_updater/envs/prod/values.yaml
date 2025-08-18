@@ -1,0 +1,8 @@
+extraLabels:
+  environment: prod
+  addon: argocd-image-updater
+
+config:
+  argocd:
+    serverAddress: "http://argocd-server.argocd.svc"
+    insecure: true

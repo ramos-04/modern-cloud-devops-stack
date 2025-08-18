@@ -331,4 +331,3 @@ This repository hosts a URL shortener application deployed on an Amazon EKS clus
   https://youtu.be/_G_RY5trQao?si=Dupnw8yiKpzBmdjZ
 
 - Manual steps observed in this setup can be further automated end to end.
-

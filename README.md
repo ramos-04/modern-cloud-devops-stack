@@ -73,13 +73,13 @@ This repository hosts a URL shortener application deployed on an Amazon EKS clus
 
 1. **Provisioning of IaC resources and Bootstrapping GitOps**
 
-- Go to the path 'IAC/environments/dev'
+- Go to the path 'iac/environments/dev'
   ```bash
-  cd IAC/environments/dev
+  cd iac/environments/dev
 
-- Launch a S3 bucket separately using AWS console to store the ***state file in a remote storage***. Enable ***versioning, least privilege access and continuous backups*** for this bucket. Create a file named 'backend-variables.hcl' and add input values to it to configure the S3 'backend' block which is responsible for handling the remote state file. Enable ***state locking*** to avoid corruption of the state file. Please do not commit this file in Git as it can open doors to leakage of important configuration data of your setup.
+- Launch a S3 bucket separately using AWS console to store the ***state file in a remote storage***. Enable ***versioning, least privilege access, and continuous backups*** for this bucket. Create a file named 'backend-variables.hcl' and add input values to it to configure the S3 'backend' block which is responsible for handling the remote state file. Enable ***state locking*** to avoid corruption of the state file. Please do not commit this file to Git, as it can expose sensitive configuration data of your setup to potential leakage.
 
-- Create a file named 'terraform.tfvars' at the current path and configure it with values for the input variables declared in 'variables.tf' file. Configure values as per your setup for the specific environment(dev in this case). Please do not commit this file in Git as it can open doors to leakage of important configuration data related to your setup.
+- Create a file named 'terraform.tfvars' at the current path and configure it with values for the input variables declared in 'variables.tf' file. Configure values as per your setup for the specific environment(dev in this case). Please do not commit this file to Git, as it can expose sensitive configuration data related to your setup to potential leakage.
 
 - Initialize terraform
   ```bash
